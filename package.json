@@ -1,0 +1,23 @@
+{
+  "name": "abacus-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "solc": "^0.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contxts-io/abacus-study.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/contxts-io/abacus-study/issues"
+  },
+  "homepage": "https://github.com/contxts-io/abacus-study#readme"
+}
