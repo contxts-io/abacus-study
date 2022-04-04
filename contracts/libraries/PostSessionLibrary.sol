@@ -49,6 +49,7 @@ library PostSessionLibrary {
     function calculateBase(uint finalAppraisalValue, uint userAppraisalValue, uint spread) pure internal returns(uint){
         uint base = 1;
         uint userVal = 100 * userAppraisalValue;
+        // speread는 treasury에 10
         for(uint i=spread; i >= 1; i--) {
             uint lowerOver = (100 + (i - 1)) * finalAppraisalValue;
             uint upperOver = (100 + i) * finalAppraisalValue;

@@ -381,6 +381,7 @@ contract PricingSession is ReentrancyGuard {
         VotingSessionMapping storage sessionMap = NftSessionMap[nonce][nftAddress][tokenid];
         VotingSessionChecks storage sessionCheck = NftSessionCheck[nonce][nftAddress][tokenid];
         sessionMap.nftVotes[msg.sender].appraisal = appraisal;
+        // 여기서 weight 계산해줌
         uint weight = sqrtLibrary.sqrt(sessionMap.nftVotes[msg.sender].stake/sessionCore.lowestStake);
         sessionCore.totalVotes += weight;
         sessionCheck.calls++;
@@ -492,6 +493,7 @@ contract PricingSession is ReentrancyGuard {
         if(sessionMap.nftVotes[_user].base > 0) {
             sessionCore.totalWinnerPoints += sessionMap.nftVotes[_user].base * weight;
             sessionMap.winnerPoints[_user] = sessionMap.nftVotes[_user].base * weight;
+            // 여기서 맞는 투표권을 더해준다.
             sessionCheck.correct += weight;
         }
         else if(
@@ -503,6 +505,7 @@ contract PricingSession is ReentrancyGuard {
             sessionCheck.incorrect += weight;
         }
         else {
+            // 여기서 안 맞는 투표권을 더해준다.
             sessionCheck.incorrect += weight;
         }
 
