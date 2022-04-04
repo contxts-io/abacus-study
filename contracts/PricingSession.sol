@@ -177,7 +177,7 @@ contract PricingSession is ReentrancyGuard {
         sessionCoreNew.endTime = block.timestamp + _votingTime;
         sessionCoreNew.bounty = msg.value;
         sessionCheck.defender = Treasury.defender();
-        sessionCheck.spread = Treasury.spread();
+        sessionCheck.spread = Treasury.spread(); // 이 거 10임. https://arbiscan.io/address/0x93dcf21284B78163ec218DeF37471C4B77CCC6E1#code
         sessionCheck.riskFactor = Treasury.riskFactor();
         payable(creditStore).transfer(sessionCoreNew.bounty);
         emit PricingSessionCreated(msg.sender, nftNonce[nftAddress][tokenid], nftAddress, tokenid, _initialAppraisal, msg.value);
@@ -549,6 +549,7 @@ contract PricingSession is ReentrancyGuard {
         }
         uint payout;
         if(sessionCheck.correct * 100 / (sessionCheck.correct + sessionCheck.incorrect) >= (95-sessionCheck.spread)) {
+            // 맞춘 사람의 비율이 95%(실제로는 spread 10이니까 85%) payout은 bounty만 준다.
             payout = sessionCore.bounty/sessionCore.uniqueVoters;
         }
         else if(sessionCheck.secondaryPoints + sessionCore.totalWinnerPoints == 0) {
@@ -560,6 +561,7 @@ contract PricingSession is ReentrancyGuard {
             sessionMap.secondaryPoint[_user] = 0;
         }
         else {
+            // 여기가 일반적인 로직이 작동하는 곳임.
             payout = sessionCore.totalProfit * sessionMap.winnerPoints[_user] / sessionCore.totalWinnerPoints;
             sessionCore.totalWinnerPoints -= sessionMap.winnerPoints[_user];
             sessionMap.winnerPoints[_user] = 0;
